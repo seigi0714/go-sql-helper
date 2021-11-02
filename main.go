@@ -9,7 +9,8 @@ import (
 
 func main() {
 	u := sqlmodel.NewUser()
-	fields := []string{"id", "name"}
-	fs := fieldhelper.AddFields(fields, u)
+	fields := []string{"id", "name", "todo_id"}
+	fs, js := fieldhelper.AddFields(fields, u)
 	fmt.Println("sql :: ", fs)
+	fmt.Println("join sql :: ", js)
 }

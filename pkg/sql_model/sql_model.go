@@ -1,5 +1,9 @@
 package sqlmodel
 
+const LEFTJOIN = "LEFT JOIN"
+const RIGTHJOIN = "RIGHT JOIN"
+const INNERJOIN = "INNER JOIN"
+
 type SqlModel interface {
 	Table() string
 	PrimaryKey() string
@@ -8,9 +12,10 @@ type SqlModel interface {
 }
 
 type FieldDefinition struct {
-	Alias     string
-	IsDefault bool
-	Sql       string
+	Alias      string
+	IsDefault  bool
+	Sql        string
+	TableAlias string
 }
 
 type JoinDefinition struct {

@@ -16,14 +16,17 @@ func (u *user) PrimaryKey() string {
 
 func (u *user) FieldsDef() []FieldDefinition {
 	return []FieldDefinition{
-		{"id", true, "user.id"},
-		{"name", true, "user.name"},
-		{"age", true, "user.age"},
+		{"id", true, "user.id", "user"},
+		{"name", true, "user.name", "user"},
+		{"age", true, "user.age", "user"},
+		{"todo_id", false, "todo.id", "todo"},
+		{"post_id", false, "post.id", "post"},
 	}
 }
 
 func (u *user) JoinTablesDef() []JoinDefinition {
 	return []JoinDefinition{
-		{"todo", "todo.userId = user.id"},
+		{"todo", "INNER JOIN todo ON todo.userId = user.id"},
+		{"post", "INNER JOIN post ON post.userId = user.id"},
 	}
 }
