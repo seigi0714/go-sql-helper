@@ -31,8 +31,8 @@ func AddFields(fields []string, e sqlmodel.SqlModel) (string, string) {
 	return fieldSql, joinhelper.AddJoinTablesSql(joinTables, e)
 }
 
-func getSelectedFields(bs sqlmodel.SqlModel, selectedFields []string) []sqlmodel.FieldDefinition {
-	return funk.Filter(bs.FieldsDef(), func(fd sqlmodel.FieldDefinition) bool {
+func getSelectedFields(sm sqlmodel.SqlModel, selectedFields []string) []sqlmodel.FieldDefinition {
+	return funk.Filter(sm.FieldsDef(), func(fd sqlmodel.FieldDefinition) bool {
 		return isSelected(&fd, selectedFields)
 	}).([]sqlmodel.FieldDefinition)
 }
