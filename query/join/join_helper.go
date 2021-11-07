@@ -21,7 +21,11 @@ func selectedTables(joinDef []sqlmodel.JoinDefinition, joinTables []string) []sq
 }
 
 func addJoinSql(joinSql *string, def sqlmodel.JoinDefinition) {
-	*joinSql = " " + *joinSql + def.Sql
+	if *joinSql == "" {
+		*joinSql = " " + def.Sql
+	} else {
+		*joinSql = *joinSql + " " + def.Sql
+	}
 }
 
 func isSelected(jd *sqlmodel.JoinDefinition, joinTables []string) bool {

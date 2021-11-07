@@ -26,7 +26,7 @@ func (u *user) FieldsDef() []FieldDefinition {
 
 func (u *user) JoinTablesDef() []JoinDefinition {
 	return []JoinDefinition{
-		{"todo", "INNER JOIN todo ON todo.userId = user.id"},
-		{"post", "INNER JOIN post ON post.userId = user.id"},
+		{"todo", "INNER JOIN todo ON todo.user_id = user.id"},
+		{"post", "INNER JOIN post ON post.user_id = user.id"},
 	}
 }
