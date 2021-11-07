@@ -2,7 +2,7 @@ package sqlmodel
 
 type user struct{}
 
-func NewUser() *user {
+func NewUser() SqlModel {
 	return &user{}
 }
 

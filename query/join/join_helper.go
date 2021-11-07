@@ -1,7 +1,7 @@
-package joinhelper
+package join
 
 import (
-	sqlmodel "github.com/seigi0714/go-sql-helper/pkg/sql_model"
+	"github.com/seigi0714/go-sql-helper/query/sqlmodel"
 	"github.com/thoas/go-funk"
 )
 
@@ -21,7 +21,7 @@ func selectedTables(joinDef []sqlmodel.JoinDefinition, joinTables []string) []sq
 }
 
 func addJoinSql(joinSql *string, def sqlmodel.JoinDefinition) {
-	*joinSql = *joinSql + def.Sql + " "
+	*joinSql = " " + *joinSql + def.Sql
 }
 
 func isSelected(jd *sqlmodel.JoinDefinition, joinTables []string) bool {

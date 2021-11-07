@@ -1,4 +1,4 @@
-package sorthepler
+package sortby
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package sorthepler
+package sortby
 
 import (
 	"strings"
@@ -15,9 +15,9 @@ func GetSortSql(v []string) string {
 func addSortSql(sortSql *string, v string) {
 	sortType := sortType(&v)
 	if *sortSql == "" {
-		*sortSql = "ORDER BY " + v + sortType + " "
+		*sortSql = " ORDER BY " + v + sortType
 	} else {
-		*sortSql = *sortSql + "," + v + sortType + " "
+		*sortSql = *sortSql + "," + v + sortType
 	}
 }
 

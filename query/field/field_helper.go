@@ -1,34 +1,32 @@
-package fieldhelper
+package field
 
 import (
-	joinhelper "github.com/seigi0714/go-sql-helper/pkg/join_helper"
-	sqlmodel "github.com/seigi0714/go-sql-helper/pkg/sql_model"
-
+	"github.com/seigi0714/go-sql-helper/query/sqlmodel"
 	"github.com/thoas/go-funk"
 )
 
-func AddFields(fields []string, e sqlmodel.SqlModel) (string, string) {
+func AddFields(fields []string, sm *sqlmodel.SqlModel) (string, []string) {
 	var fieldSql = ""
 	var joinTables []string
-
+	model := *sm
 	// 指定フィールドがない場合デフォルトtrueのものを返却
 	if len(fields) == 0 {
-		for _, fd := range e.FieldsDef() {
+		for _, fd := range model.FieldsDef() {
 			if !(fd.IsDefault) {
 				continue
 			}
 			addFieldSql(&fieldSql, fd, &joinTables)
 		}
 	} else {
-		if !isSelectedPK(e, fields) {
-			fields = append([]string{e.PrimaryKey()}, fields...)
+		if !isSelectedPK(model, fields) {
+			fields = append([]string{model.PrimaryKey()}, fields...)
 		}
-		sqlSlice := getSelectedFields(e, fields)
+		sqlSlice := getSelectedFields(model, fields)
 		for _, sql := range sqlSlice {
 			addFieldSql(&fieldSql, sql, &joinTables)
 		}
 	}
-	return fieldSql, joinhelper.AddJoinTablesSql(joinTables, e)
+	return fieldSql, joinTables
 }
 
 func getSelectedFields(sm sqlmodel.SqlModel, selectedFields []string) []sqlmodel.FieldDefinition {
