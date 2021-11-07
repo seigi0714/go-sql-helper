@@ -5,7 +5,7 @@ import (
 	"github.com/thoas/go-funk"
 )
 
-func AddFields(fields []string, sm *sqlmodel.SqlModel) (string, []string) {
+func Get(fields []string, sm *sqlmodel.SqlModel) (string, []string) {
 	var fieldSql = ""
 	var joinTables []string
 	model := *sm

@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-func GetSortSql(v []string) string {
+func Get(v []string) string {
 	sql := ""
 	for _, sort := range v {
 		addSortSql(&sql, sort)

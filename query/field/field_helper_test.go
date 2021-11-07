@@ -19,17 +19,17 @@ const priSql = "SELECT user.id as id"
 
 func TestAddField(t *testing.T) {
 	u := sqlmodel.NewUser()
-	fs, jts := AddFields(fields, &u)
+	fs, jts := Get(fields, &u)
 
 	expectedSql := "SELECT user.id as id,user.name as name,todo.id as todo_id,post.id as post_id"
 	expectedJts := []string{"user", "todo", "post"}
 	assert.Equal(t, expectedSql, fs)
 	assert.Equal(t, expectedJts, jts)
 
-	defaultFs, jts := AddFields(notSelect, &u)
+	defaultFs, jts := Get(notSelect, &u)
 	assert.Equal(t, defaultSql, defaultFs)
 	assert.Equal(t, []string{"user"}, jts)
 
-	priFs, _ := AddFields(failedSelect, &u)
+	priFs, _ := Get(failedSelect, &u)
 	assert.Equal(t, priSql, priFs)
 }

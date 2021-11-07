@@ -5,7 +5,7 @@ import (
 	"github.com/thoas/go-funk"
 )
 
-func AddJoinTablesSql(joinTables []string, e sqlmodel.SqlModel) string {
+func Get(joinTables []string, e sqlmodel.SqlModel) string {
 	joinSql := ""
 
 	for _, def := range selectedTables(e.JoinTablesDef(), joinTables) {

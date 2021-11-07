@@ -13,6 +13,7 @@ type QueryBuilder struct {
 	fields     []string
 	joinTables []string
 	sort       []string
+	where      []string
 	// TODO: ページング実装
 	// page       int
 	// per_page   int
@@ -64,14 +65,14 @@ func (qb *QueryBuilder) ToSql() (string, error) {
 	model := *qb.model
 	from := " FROM " + model.Table()
 	// セレクト句とそれらに関連したJOINテーブルを取得
-	fs, jts := field.AddFields(qb.fields, qb.model)
+	fs, jts := field.Get(qb.fields, qb.model)
 
 	// JOIN句を取得
 	qb.joinTables = append(qb.joinTables, jts...)
-	js := join.AddJoinTablesSql(qb.joinTables, *qb.model)
+	js := join.Get(qb.joinTables, *qb.model)
 
 	// ORDER BY句を取得
-	ss := sortby.GetSortSql(qb.sort)
+	ss := sortby.Get(qb.sort)
 	return fs + from + js + ss, nil
 }
 
