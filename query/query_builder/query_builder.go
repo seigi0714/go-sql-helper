@@ -3,8 +3,10 @@ package query
 import (
 	"github.com/seigi0714/go-sql-helper/query/field"
 	"github.com/seigi0714/go-sql-helper/query/join"
+	query_error "github.com/seigi0714/go-sql-helper/query/myerror"
 	"github.com/seigi0714/go-sql-helper/query/sortby"
 	"github.com/seigi0714/go-sql-helper/query/sqlmodel"
+	"github.com/seigi0714/go-sql-helper/query/where"
 	"github.com/thoas/go-funk"
 )
 
@@ -71,9 +73,12 @@ func (qb *QueryBuilder) ToSql() (string, error) {
 	qb.joinTables = append(qb.joinTables, jts...)
 	js := join.Get(qb.joinTables, *qb.model)
 
+	// WHERE句を取得
+	ws := where.Get(qb.where)
+
 	// ORDER BY句を取得
 	ss := sortby.Get(qb.sort)
-	return fs + from + js + ss, nil
+	return fs + from + js + ws + ss, nil
 }
 
 // 選択したフィールドが定義されているかチェック
@@ -99,7 +104,7 @@ func (qb *QueryBuilder) isDefField(f string) (err error) {
 		err = nil
 		return
 	}
-	err = NotDefFieldError(f)
+	err = query_error.NotDefFieldError(f)
 	return
 }
 
@@ -126,6 +131,10 @@ func (qb *QueryBuilder) isDefTable(t string) (err error) {
 		err = nil
 		return
 	}
-	err = NotDefJoinTableError(t)
+	err = query_error.NotDefJoinTableError(t)
 	return
+}
+
+func (qb *QueryBuilder) AddWhere(whereSql ...string) {
+	qb.where = append(qb.where, whereSql...)
 }

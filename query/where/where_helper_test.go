@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	query "github.com/seigi0714/go-sql-helper/query/query_builder"
+	query_error "github.com/seigi0714/go-sql-helper/query/myerror"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -22,7 +22,7 @@ func TestAddWhere(t *testing.T) {
 func TestInvalidOperator(t *testing.T) {
 	where1, err := Where("id", "==", "1")
 	assert.Equal(t, where1, "")
-	assert.Equal(t, err, query.InvalidOperatorError("=="))
+	assert.Equal(t, err, query_error.InvalidOperatorError("=="))
 }
 
 func TestAddWhereIn(t *testing.T) {

@@ -3,6 +3,7 @@ package query
 import (
 	"testing"
 
+	query_error "github.com/seigi0714/go-sql-helper/query/myerror"
 	"github.com/seigi0714/go-sql-helper/query/sqlmodel"
 	"github.com/stretchr/testify/assert"
 )
@@ -44,7 +45,7 @@ func TestNotDefFields(t *testing.T) {
 	qb := New(&u)
 	qb.AddFields(notDefField)
 
-	notDefFieldErr := NotDefFieldError("display_name")
+	notDefFieldErr := query_error.NotDefFieldError("display_name")
 	sql, err := qb.ToSql()
 	assert.Equal(t, "", sql)
 	assert.Equal(t, err, notDefFieldErr, "定義していないフィールドを指定していた場合エラー")
@@ -56,7 +57,7 @@ func TestNotDefTables(t *testing.T) {
 	qb.AddFields(notSelect)
 	qb.AddJoinTable("memo")
 
-	notDefTableErr := NotDefJoinTableError("memo")
+	notDefTableErr := query_error.NotDefJoinTableError("memo")
 	sql, err := qb.ToSql()
 	assert.Equal(t, "", sql)
 	assert.Equal(t, err, notDefTableErr, "定義していないテーブルをJOINしようとした場合エラー")

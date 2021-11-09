@@ -11,13 +11,13 @@ var sorts = []string{"id", "-name"}
 var notSelect = []string{}
 
 func TestAddField(t *testing.T) {
-	ss := GetSortSql(sorts)
+	ss := Get(sorts)
 
 	expectedSql := "ORDER BY id ASC ,name DESC "
 	fmt.Println("sort sql :: ", ss)
 	assert.Equal(t, expectedSql, ss)
 
-	ss = GetSortSql(notSelect)
+	ss = Get(notSelect)
 	fmt.Println("not sort sql :: ", ss)
 	assert.Equal(t, "", ss)
 }

@@ -3,7 +3,7 @@ package where
 import (
 	"strings"
 
-	query "github.com/seigi0714/go-sql-helper/query/query_builder"
+	query_error "github.com/seigi0714/go-sql-helper/query/myerror"
 	"github.com/thoas/go-funk"
 )
 
@@ -46,8 +46,13 @@ func getOption(ws *string) (o string) {
 	where := s[2:]
 	if prefix == andWherePrefix {
 		o = " AND "
-	} else {
+	} else if prefix == orWherePrefix {
 		o = " OR "
+	} else {
+		// 指定しない場合,ANDで返却.
+		// WHERE区のPrefixを排除しない.
+		o = " AND "
+		return
 	}
 	*ws = where
 	return
@@ -71,9 +76,25 @@ func OrWhere(x, o, y string) (string, error) {
 
 func checkCO(o string) error {
 	if !funk.Contains(comparisonOperator, o) {
-		return query.InvalidOperatorError(o)
+		return query_error.InvalidOperatorError(o)
 	}
 	return nil
+}
+
+func WhereNull(col string) string {
+	return andWherePrefix + col + " IS NULL"
+}
+
+func WhereNot(col string) string {
+	return andWherePrefix + col + " IS NOT NULL"
+}
+
+func OrWhereNull(col string) string {
+	return orWherePrefix + col + " IS NULL"
+}
+
+func OrWhereNotNull(col string) string {
+	return orWherePrefix + col + " IS NOT NULL"
 }
 
 func WhereIn(x string, in []string) string {
