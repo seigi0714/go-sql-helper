@@ -63,7 +63,7 @@ func Where(x, o, y string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return andWherePrefix + x + o + y, nil
+	return andWherePrefix + where(x, o, y), nil
 }
 
 func OrWhere(x, o, y string) (string, error) {
@@ -71,7 +71,11 @@ func OrWhere(x, o, y string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return orWherePrefix + x + "=" + y, nil
+	return orWherePrefix + where(x, o, y), nil
+}
+
+func where(x, o, y string) string {
+	return x + o + "'" + y + "'"
 }
 
 func checkCO(o string) error {
@@ -98,11 +102,17 @@ func OrWhereNotNull(col string) string {
 }
 
 func WhereIn(x string, in []string) string {
-	inStr := strings.Join(in[:], ",")
-	return andWherePrefix + x + " IN(" + inStr + ")"
+	inStr := joinArrStr(in)
+	return andWherePrefix + x + " IN(" + inStr + "')"
 }
 
 func OrWhereIn(x string, in []string) string {
-	inStr := strings.Join(in[:], ",")
-	return orWherePrefix + x + " IN(" + inStr + ")"
+	inStr := joinArrStr(in)
+	return orWherePrefix + x + " IN(" + inStr + "')"
+}
+
+func joinArrStr(in []string) string {
+	strArr := strings.Join(in[:], "','")
+	len := len(strArr)
+	return "'" + strArr[:len]
 }
